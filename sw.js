@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scandi-trip-v2';
+const CACHE_NAME = 'scandi-trip-v3';
 
 const PRECACHE_ASSETS = [
   './',
@@ -15,7 +15,9 @@ const PRECACHE_ASSETS = [
   'data/bundle.enc.json',
   'assets/icons/icon-192.png',
   'assets/icons/icon-512.png',
-  'assets/icons/icon-maskable-512.png'
+  'assets/icons/icon-maskable-512.png',
+  'assets/illustrations/viking.svg',
+  'assets/illustrations/cinnamon-bun.svg'
   // Ticket files intentionally not committed to this repo — see project notes.
 ];
 

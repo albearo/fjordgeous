@@ -25,19 +25,26 @@ function renderItem(item) {
     links += `<a href="${mapsUrl}" target="_blank" rel="noopener">🗺️ Map</a>`;
   }
 
+  const mascot = item.type === 'dining'
+    ? 'assets/illustrations/cinnamon-bun.svg'
+    : 'assets/illustrations/viking.svg';
+
   let factsHtml = '';
   if (fact) {
     factsHtml = `<details class="item-facts">
       <summary class="link-btn" style="cursor:pointer;">📚 History &amp; fun fact</summary>
-      <div class="item-notes" style="margin-top:6px;">
-        ${fact.history ? `<p style="margin:4px 0;">${fact.history}</p>` : ''}
-        ${fact.funFact ? `<p style="margin:4px 0;"><strong>Fun fact:</strong> ${fact.funFact}</p>` : ''}
+      <div class="fact-bubble">
+        <img class="fact-mascot" src="${mascot}" alt="" />
+        <div class="fact-speech">
+          ${fact.history ? `<p>${fact.history}</p>` : ''}
+          ${fact.funFact ? `<p><strong>Fun fact:</strong> ${fact.funFact}</p>` : ''}
+        </div>
       </div>
     </details>`;
   }
 
   return `
-    <div class="item status-${item.status}" data-status="${item.status}">
+    <div class="item status-${item.status} type-${item.type}" data-status="${item.status}">
       <div class="item-top">
         <span class="item-title">${icon} ${item.title}</span>
         ${item.time ? `<span class="item-time">${item.time}</span>` : ''}
