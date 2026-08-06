@@ -1,0 +1,4 @@
+# Plaintext trip content — never committed. Only data/bundle.enc.json (encrypted) is tracked.
+data/itinerary.json
+data/locations.json
+data/facts.json
