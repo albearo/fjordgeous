@@ -1,5 +1,5 @@
 const LiveData = (function () {
-  const WEATHER_CACHE_KEY = 'weatherCache';
+  const WEATHER_CACHE_KEY = 'weatherCacheV2';
   const ELECTION_CACHE_KEY = 'electionCache';
 
   const CITIES = [
@@ -74,7 +74,7 @@ const LiveData = (function () {
           const days = weatherData[c.name];
           return `<div class="weather-city-block">
             <div class="weather-city-name">${c.name}</div>
-            ${days ? days.map(d => `
+            ${Array.isArray(days) ? days.map(d => `
               <div class="weather-day-row">
                 <span class="weather-day-label">${formatDayLabel(d.date)}</span>
                 <span class="weather-day-cond">${WMO[d.code] || ''}</span>

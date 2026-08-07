@@ -212,11 +212,19 @@ function renderWidgetsTab() {
     </div>
   `;
   document.getElementById('main-content').innerHTML = html;
-  if (window.CurrencyWidget) window.CurrencyWidget.mount(document.getElementById('currency-widget-mount'));
+  const safeMount = (fn, containerId) => {
+    try { fn(document.getElementById(containerId)); }
+    catch (e) {
+      console.warn('Widget failed to mount:', containerId, e);
+      const el = document.getElementById(containerId);
+      if (el) el.innerHTML = '<p class="empty-state">Couldn\'t load this widget.</p>';
+    }
+  };
+  if (window.CurrencyWidget) safeMount(window.CurrencyWidget.mount, 'currency-widget-mount');
   if (window.LiveData) {
-    window.LiveData.mountWeather(document.getElementById('weather-widget-mount'));
-    window.LiveData.mountElection(document.getElementById('election-widget-mount'));
-    window.LiveData.mountNews(document.getElementById('news-widget-mount'));
+    safeMount(window.LiveData.mountWeather, 'weather-widget-mount');
+    safeMount(window.LiveData.mountElection, 'election-widget-mount');
+    safeMount(window.LiveData.mountNews, 'news-widget-mount');
   }
 }
 
