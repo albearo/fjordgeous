@@ -43,15 +43,23 @@ const LiveData = (function () {
     return `${Math.round(hrs / 24)}d ago`;
   }
 
+  function formatDayLabel(dateStr) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const date = new Date(y, m - 1, d);
+    return date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
   async function fetchWeatherFor(city) {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lng}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lng}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=auto&forecast_days=7`;
     const res = await fetch(url);
     if (!res.ok) throw new Error('weather fetch failed');
     const json = await res.json();
-    return {
-      temp: Math.round(json.current.temperature_2m),
-      code: json.current.weather_code
-    };
+    return json.daily.time.map((date, i) => ({
+      date,
+      max: Math.round(json.daily.temperature_2m_max[i]),
+      min: Math.round(json.daily.temperature_2m_min[i]),
+      code: json.daily.weather_code[i]
+    }));
   }
 
   function mountWeather(container) {
@@ -61,17 +69,20 @@ const LiveData = (function () {
 
     function render() {
       container.innerHTML = `
-        <h3 style="margin-top:0;">🌦️ Weather</h3>
-        <div class="weather-row">
-          ${CITIES.map(c => {
-            const w = weatherData[c.name];
-            return `<div class="weather-city">
-              <div class="wc-name">${c.name}</div>
-              <div class="wc-temp">${w ? w.temp + '°F' : '—'}</div>
-              <div class="wc-cond">${w ? (WMO[w.code] || '') : ''}</div>
-            </div>`;
-          }).join('')}
-        </div>
+        <h3 style="margin-top:0;">🌦️ 7-day forecast</h3>
+        ${CITIES.map(c => {
+          const days = weatherData[c.name];
+          return `<div class="weather-city-block">
+            <div class="weather-city-name">${c.name}</div>
+            ${days ? days.map(d => `
+              <div class="weather-day-row">
+                <span class="weather-day-label">${formatDayLabel(d.date)}</span>
+                <span class="weather-day-cond">${WMO[d.code] || ''}</span>
+                <span class="weather-day-temps">${d.max}° / ${d.min}°</span>
+              </div>
+            `).join('') : '<div class="empty-state">—</div>'}
+          </div>`;
+        }).join('')}
         <div class="stale-note">${fetchedAt ? `As of ${formatAge(fetchedAt)}` : 'No cached data yet'}</div>
       `;
     }

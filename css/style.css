@@ -435,25 +435,48 @@ main#main-content {
   color: var(--ink-soft);
 }
 
-.weather-row {
+.weather-city-block {
+  margin-bottom: 14px;
+}
+
+.weather-city-block:last-of-type {
+  margin-bottom: 8px;
+}
+
+.weather-city-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.weather-day-row {
   display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 4px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.82rem;
 }
 
-.weather-city {
+.weather-day-row:last-child { border-bottom: none; }
+
+.weather-day-label {
   flex: 0 0 auto;
-  background: var(--planned-bg);
-  border-radius: 10px;
-  padding: 10px 14px;
-  text-align: center;
-  min-width: 92px;
+  min-width: 84px;
+  color: var(--ink-soft);
 }
 
-.weather-city .wc-name { font-size: 0.72rem; font-weight: 700; color: var(--ink-soft); }
-.weather-city .wc-temp { font-size: 1.3rem; font-weight: 800; color: var(--blue-light); }
-.weather-city .wc-cond { font-size: 0.68rem; color: var(--ink-soft); }
+.weather-day-cond {
+  flex: 1 1 auto;
+}
+
+.weather-day-temps {
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: var(--blue-light);
+  white-space: nowrap;
+}
 
 .pin-list-item {
   display: flex;

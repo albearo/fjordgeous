@@ -200,11 +200,16 @@ function renderMapTab() {
 }
 
 function renderWidgetsTab() {
+  const reading = TripData.itinerary.readingList || [];
   const html = `
     <div class="card" id="currency-widget-mount"></div>
     <div class="card" id="weather-widget-mount"></div>
     <div class="card" id="election-widget-mount"></div>
     <div class="card" id="news-widget-mount"></div>
+    <div class="section-title">Political background reading</div>
+    <div class="card">
+      ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div></div>`).join('')}
+    </div>
   `;
   document.getElementById('main-content').innerHTML = html;
   if (window.CurrencyWidget) window.CurrencyWidget.mount(document.getElementById('currency-widget-mount'));
@@ -217,15 +222,10 @@ function renderWidgetsTab() {
 
 function renderInfoTab() {
   const trip = TripData.itinerary.trip;
-  const reading = TripData.itinerary.readingList || [];
   let html = `
     <div class="card">
       <h2 style="margin-top:0;">${trip.title}</h2>
       <p class="item-notes">${trip.dateRange}<br>${trip.route}</p>
-    </div>
-    <div class="section-title">Before the wedding: reading list</div>
-    <div class="card">
-      ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div></div>`).join('')}
     </div>
     <div class="section-title">About this app</div>
     <div class="card">
