@@ -1,11 +1,19 @@
 const CryptoGate = (function () {
-  const STORAGE_KEY = 'unlockedBundleV1';
+  const STORAGE_KEY = 'unlockedBundleV2';
 
   function b64ToBytes(b64) {
     const bin = atob(b64);
     const bytes = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     return bytes;
+  }
+
+  function loadCache() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch (e) { return null; }
+  }
+
+  function saveCache(version, passphrase, data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version, passphrase, data }));
   }
 
   async function deriveKey(passphrase, salt, iterations) {
@@ -70,25 +78,42 @@ const CryptoGate = (function () {
 
   function getData() {
     return new Promise((resolve, reject) => {
-      const cached = localStorage.getItem(STORAGE_KEY);
-      if (cached) {
-        try {
-          resolve(JSON.parse(cached));
+      const cache = loadCache();
+
+      fetch('data/bundle.enc.json').then(r => r.json()).then(async (encBundle) => {
+        // Same content we already have decrypted on this device — use it, no prompt.
+        if (cache && cache.version === encBundle.version) {
+          resolve(cache.data);
           return;
-        } catch (e) { /* corrupted cache, fall through to re-prompt */ }
-      }
-      fetch('data/bundle.enc.json').then(r => r.json()).then(encBundle => {
+        }
+
+        // Content changed since last unlock. If we still have the passphrase
+        // cached on this device, re-decrypt silently — no need to re-prompt.
+        if (cache && cache.passphrase) {
+          try {
+            const data = await tryDecrypt(cache.passphrase, encBundle);
+            saveCache(encBundle.version, cache.passphrase, data);
+            resolve(data);
+            return;
+          } catch (e) { /* cached passphrase no longer works, fall through to prompt */ }
+        }
+
+        // No usable cache at all — ask for the passphrase.
         showLockScreen(async (passphrase) => {
           try {
             const data = await tryDecrypt(passphrase, encBundle);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            saveCache(encBundle.version, passphrase, data);
             resolve(data);
             return true;
           } catch (e) {
             return false;
           }
         });
-      }).catch(reject);
+      }).catch((err) => {
+        // Offline and nothing cached yet — nothing we can do.
+        if (cache) { resolve(cache.data); return; }
+        reject(err);
+      });
     });
   }
 

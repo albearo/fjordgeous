@@ -1,7 +1,7 @@
 // Run locally before each push: node tools/encrypt-data.js <passphrase>
 // Reads the plaintext source files in data/ (gitignored) and writes the
 // single encrypted bundle that actually gets committed: data/bundle.enc.json
-const { webcrypto } = require('crypto');
+const { webcrypto, createHash } = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
@@ -37,7 +37,10 @@ async function main() {
     { name: 'AES-GCM', iv }, key, new TextEncoder().encode(bundlePlain)
   );
 
+  const version = createHash('sha256').update(bundlePlain).digest('hex').slice(0, 12);
+
   const out = {
+    version,
     salt: Buffer.from(salt).toString('base64'),
     iv: Buffer.from(iv).toString('base64'),
     iterations: ITERATIONS,
@@ -45,7 +48,7 @@ async function main() {
   };
 
   fs.writeFileSync(path.join(ROOT, 'data/bundle.enc.json'), JSON.stringify(out));
-  console.log('Wrote data/bundle.enc.json (' + out.ciphertext.length + ' base64 chars)');
+  console.log('Wrote data/bundle.enc.json version=' + version + ' (' + out.ciphertext.length + ' base64 chars)');
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });
