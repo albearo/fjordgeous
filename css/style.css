@@ -1,51 +1,51 @@
 :root {
-  --blue: #1c3f6e;
-  --blue-light: #3a68a8;
-  --yellow: #ffd54a;
-  --red: #e0483e;
-  --cream: #faf6ef;
-  --ink: #20242b;
-  --ink-soft: #5b6472;
-  --line: #e4ddd0;
-  --card: #ffffff;
-  --booked: #1f8a5f;
-  --booked-bg: #e6f5ee;
-  --planned: #2f5fa8;
-  --planned-bg: #eaf1fb;
-  --optional: #b5810a;
-  --optional-bg: #fbf1dc;
+  --blue: #2c4a68;
+  --blue-light: #6b8caa;
+  --yellow: #f0b94a;
+  --red: #c96a53;
+  --cream: #f7ead9;
+  --ink: #1e2b3a;
+  --ink-soft: #6b7a89;
+  --line: #e6d9c4;
+  --card: #fffdf9;
+  --booked: #6f8f5c;
+  --booked-bg: #eaf0e2;
+  --planned: #5d7c98;
+  --planned-bg: #e6edf2;
+  --optional: #bf8a35;
+  --optional-bg: #f7ecd8;
   --radius: 18px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-  --type-transit: #4a6d9c;
-  --type-transit-bg: #e9eff8;
-  --type-lodging: #8266b0;
-  --type-lodging-bg: #f2ecf9;
-  --type-dining: #c9702f;
-  --type-dining-bg: #fdf0e2;
-  --type-sight: #2b8a6e;
-  --type-sight-bg: #e7f5ef;
-  --type-event: #c94f7c;
-  --type-event-bg: #fdecf1;
-  --type-logistics: #767672;
-  --type-logistics-bg: #f1f0ee;
+  --type-transit: #5d7c98;
+  --type-transit-bg: #e6edf2;
+  --type-lodging: #8a76a0;
+  --type-lodging-bg: #f0ecf5;
+  --type-dining: #cf7a3f;
+  --type-dining-bg: #f8e8d8;
+  --type-sight: #7c9469;
+  --type-sight-bg: #eaf0e2;
+  --type-event: #c97b6f;
+  --type-event-bg: #f7e6e1;
+  --type-logistics: #8a8478;
+  --type-logistics-bg: #f0ede6;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --cream: #14171c;
-    --ink: #eef0f3;
-    --ink-soft: #a7afba;
-    --line: #2a2f38;
-    --card: #1d2229;
-    --booked-bg: #113325;
-    --planned-bg: #182742;
-    --optional-bg: #332a12;
+    --cream: #191c22;
+    --ink: #eee7db;
+    --ink-soft: #a29b8e;
+    --line: #333a44;
+    --card: #22262e;
+    --booked-bg: #1e2a1a;
+    --planned-bg: #1c2733;
+    --optional-bg: #2e2618;
 
-    --type-transit-bg: #1b2635;
-    --type-lodging-bg: #241d31;
-    --type-dining-bg: #2e2015;
-    --type-sight-bg: #14261f;
+    --type-transit-bg: #1c2733;
+    --type-lodging-bg: #262032;
+    --type-dining-bg: #2e2115;
+    --type-sight-bg: #1e2a1a;
     --type-event-bg: #2c1720;
     --type-logistics-bg: #232323;
   }
@@ -155,8 +155,16 @@ main#main-content {
 }
 
 .tab-btn .tab-icon {
-  font-size: 1.25rem;
-  line-height: 1;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tab-btn.active .tab-icon {
+  opacity: 1;
+  transform: scale(1.08);
 }
 
 .tab-btn.active {
@@ -263,6 +271,17 @@ main#main-content {
 .item-title {
   font-weight: 600;
   font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.transit-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .item-time {
@@ -327,8 +346,9 @@ main#main-content {
 }
 
 .fact-mascot {
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
   flex-shrink: 0;
 }
 

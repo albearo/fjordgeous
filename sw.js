@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scandi-trip-v3';
+const CACHE_NAME = 'scandi-trip-v4';
 
 const PRECACHE_ASSETS = [
   './',
@@ -16,8 +16,16 @@ const PRECACHE_ASSETS = [
   'assets/icons/icon-192.png',
   'assets/icons/icon-512.png',
   'assets/icons/icon-maskable-512.png',
-  'assets/illustrations/viking.svg',
-  'assets/illustrations/cinnamon-bun.svg'
+  'assets/icons/nav-today.png',
+  'assets/icons/nav-itinerary.png',
+  'assets/icons/nav-map.png',
+  'assets/icons/nav-widgets.png',
+  'assets/icons/nav-info.png',
+  'assets/illustrations/viking.png',
+  'assets/illustrations/cardamom-bun.png',
+  'assets/illustrations/plane.png',
+  'assets/illustrations/train.png',
+  'assets/illustrations/viking-ship.png'
   // Ticket files intentionally not committed to this repo — see project notes.
 ];
 

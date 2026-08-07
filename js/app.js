@@ -3,6 +3,11 @@ const TYPE_ICONS = {
   transit: '🚆', lodging: '🛏️', dining: '🍽️', sight: '📍',
   event: '🎉', logistics: '🧳'
 };
+const TRANSIT_MODE_ICONS = {
+  flight: 'assets/illustrations/plane.png',
+  train: 'assets/illustrations/train.png',
+  boat: 'assets/illustrations/viking-ship.png'
+};
 
 let currentFilter = 'all';
 
@@ -12,7 +17,11 @@ function mapsSearchUrl(loc) {
 }
 
 function renderItem(item) {
+  const modeIcon = item.type === 'transit' ? TRANSIT_MODE_ICONS[item.mode] : null;
   const icon = TYPE_ICONS[item.type] || '📍';
+  const titleIcon = modeIcon
+    ? `<img class="transit-icon" src="${modeIcon}" alt="" />`
+    : icon;
   const loc = item.locationId ? getLocation(item.locationId) : null;
   const fact = item.locationId ? getFacts(item.locationId) : null;
   const mapsUrl = mapsSearchUrl(loc);
@@ -26,13 +35,13 @@ function renderItem(item) {
   }
 
   const mascot = item.type === 'dining'
-    ? 'assets/illustrations/cinnamon-bun.svg'
-    : 'assets/illustrations/viking.svg';
+    ? 'assets/illustrations/cardamom-bun.png'
+    : 'assets/illustrations/viking.png';
 
   let factsHtml = '';
   if (fact) {
     factsHtml = `<details class="item-facts">
-      <summary class="link-btn" style="cursor:pointer;">📚 History &amp; fun fact</summary>
+      <summary class="link-btn" style="cursor:pointer;">📚 Fjun fjacts</summary>
       <div class="fact-bubble">
         <img class="fact-mascot" src="${mascot}" alt="" />
         <div class="fact-speech">
@@ -46,7 +55,7 @@ function renderItem(item) {
   return `
     <div class="item status-${item.status} type-${item.type}" data-status="${item.status}">
       <div class="item-top">
-        <span class="item-title">${icon} ${item.title}</span>
+        <span class="item-title">${titleIcon} ${item.title}</span>
         ${item.time ? `<span class="item-time">${item.time}</span>` : ''}
       </div>
       <span class="badge status-${item.status}">${STATUS_LABELS[item.status] || item.status}</span>
