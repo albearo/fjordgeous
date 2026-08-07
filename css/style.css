@@ -450,32 +450,43 @@ main#main-content {
   margin-bottom: 4px;
 }
 
-.weather-day-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 0.82rem;
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
 }
 
-.weather-day-row:last-child { border-bottom: none; }
-
-.weather-day-label {
-  flex: 0 0 auto;
-  min-width: 84px;
-  color: var(--ink-soft);
+.weather-grid-cell {
+  background: var(--planned-bg);
+  border-radius: 10px;
+  padding: 6px 2px 8px;
+  text-align: center;
 }
 
-.weather-day-cond {
-  flex: 1 1 auto;
-}
-
-.weather-day-temps {
-  flex: 0 0 auto;
+.wg-day {
+  font-size: 0.62rem;
   font-weight: 700;
-  color: var(--blue-light);
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+.wg-icon {
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+.wg-temps {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink);
   white-space: nowrap;
+}
+
+.wg-cond {
+  font-size: 0.56rem;
+  line-height: 1.15;
+  margin-top: 2px;
+  color: var(--ink-soft);
 }
 
 .pin-list-item {

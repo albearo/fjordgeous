@@ -19,13 +19,22 @@ const LiveData = (function () {
     { city: 'Norway', name: 'The Norway Post', url: 'https://www.norwaypost.no' }
   ];
 
-  const WMO = {
-    0: '☀️ Clear', 1: '🌤️ Mostly clear', 2: '⛅ Partly cloudy', 3: '☁️ Overcast',
-    45: '🌫️ Fog', 48: '🌫️ Fog', 51: '🌦️ Drizzle', 53: '🌦️ Drizzle', 55: '🌧️ Drizzle',
-    61: '🌧️ Light rain', 63: '🌧️ Rain', 65: '🌧️ Heavy rain',
-    71: '🌨️ Light snow', 73: '🌨️ Snow', 75: '❄️ Heavy snow',
-    80: '🌦️ Showers', 81: '🌧️ Showers', 82: '⛈️ Violent showers',
-    95: '⛈️ Thunderstorm'
+  const WMO_ICON = {
+    0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+    45: '🌫️', 48: '🌫️', 51: '🌦️', 53: '🌦️', 55: '🌧️',
+    61: '🌧️', 63: '🌧️', 65: '🌧️',
+    71: '🌨️', 73: '🌨️', 75: '❄️',
+    80: '🌦️', 81: '🌧️', 82: '⛈️',
+    95: '⛈️'
+  };
+
+  const WMO_LABEL = {
+    0: 'Clear', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Overcast',
+    45: 'Fog', 48: 'Fog', 51: 'Drizzle', 53: 'Drizzle', 55: 'Drizzle',
+    61: 'Light rain', 63: 'Rain', 65: 'Heavy rain',
+    71: 'Light snow', 73: 'Snow', 75: 'Heavy snow',
+    80: 'Showers', 81: 'Showers', 82: 'Violent showers',
+    95: 'Thunderstorm'
   };
 
   function loadCache(key) {
@@ -47,6 +56,12 @@ const LiveData = (function () {
     const [y, m, d] = dateStr.split('-').map(Number);
     const date = new Date(y, m - 1, d);
     return date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  function formatDayShort(dateStr) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const date = new Date(y, m - 1, d);
+    return date.toLocaleDateString(undefined, { weekday: 'short' });
   }
 
   async function fetchWeatherFor(city) {
@@ -74,13 +89,16 @@ const LiveData = (function () {
           const days = weatherData[c.name];
           return `<div class="weather-city-block">
             <div class="weather-city-name">${c.name}</div>
-            ${Array.isArray(days) ? days.map(d => `
-              <div class="weather-day-row">
-                <span class="weather-day-label">${formatDayLabel(d.date)}</span>
-                <span class="weather-day-cond">${WMO[d.code] || ''}</span>
-                <span class="weather-day-temps">${d.max}° / ${d.min}°</span>
-              </div>
-            `).join('') : '<div class="empty-state">—</div>'}
+            <div class="weather-grid">
+              ${Array.isArray(days) ? days.map(d => `
+                <div class="weather-grid-cell">
+                  <div class="wg-day">${formatDayShort(d.date)}</div>
+                  <div class="wg-icon">${WMO_ICON[d.code] || '❓'}</div>
+                  <div class="wg-temps">${d.max}°/${d.min}°</div>
+                  <div class="wg-cond">${WMO_LABEL[d.code] || ''}</div>
+                </div>
+              `).join('') : '<div class="empty-state">—</div>'}
+            </div>
           </div>`;
         }).join('')}
         <div class="stale-note">${fetchedAt ? `As of ${formatAge(fetchedAt)}` : 'No cached data yet'}</div>
