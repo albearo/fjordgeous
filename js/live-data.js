@@ -151,8 +151,13 @@ const LiveData = (function () {
 
   function mountSchengen(container) {
     container.innerHTML = `
-      <h3 style="margin-top:0;">🇪🇺 Schengen Scmengen</h3>
-      <div class="infogram-embed" data-id="who_belongs_to_what_in_europe_schengen_eea_efta_and_more" data-type="interactive" data-title="Who belongs to what in Europe? Schengen, EEA, EFTA and more"></div>
+      <h3 style="margin-top:0;">🇪🇺 Schengen Schmengen</h3>
+      <div class="schengen-crop">
+        <div class="infogram-embed" data-id="who_belongs_to_what_in_europe_schengen_eea_efta_and_more" data-type="interactive" data-title="Who belongs to what in Europe? Schengen, EEA, EFTA and more"></div>
+      </div>
+      <div class="item-links" style="margin-top:8px;">
+        <a href="https://e.infogram.com/who_belongs_to_what_in_europe_schengen_eea_efta_and_more" target="_blank" rel="noopener">View full interactive →</a>
+      </div>
       <div class="stale-note">Interactive map — opens live, needs a connection.</div>
     `;
     loadInfogramEmbeds();

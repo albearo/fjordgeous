@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scandi-trip-v13';
+const CACHE_NAME = 'scandi-trip-v14';
 
 const PRECACHE_ASSETS = [
   './',

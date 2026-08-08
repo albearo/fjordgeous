@@ -227,9 +227,9 @@ function renderWidgetsTab() {
     <div class="card" id="currency-widget-mount"></div>
     <div class="card" id="weather-widget-mount"></div>
     <div class="card" id="fika-widget-mount"></div>
-    <div class="card" id="schengen-widget-mount"></div>
     <div class="card" id="election-widget-mount"></div>
     <div class="card" id="news-widget-mount"></div>
+    <div class="card" id="schengen-widget-mount"></div>
     <div class="section-title">Political Background Reading</div>
     <div class="card">
       ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div></div>`).join('')}
@@ -250,9 +250,9 @@ function renderWidgetsTab() {
   }
   if (window.FikaWidget) safeMount(window.FikaWidget.mount, 'fika-widget-mount');
   if (window.LiveData) {
-    safeMount(window.LiveData.mountSchengen, 'schengen-widget-mount');
     safeMount(window.LiveData.mountElection, 'election-widget-mount');
     safeMount(window.LiveData.mountNews, 'news-widget-mount');
+    safeMount(window.LiveData.mountSchengen, 'schengen-widget-mount');
   }
 }
 

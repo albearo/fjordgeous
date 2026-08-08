@@ -755,6 +755,24 @@ button.big-tab-toggle {
   flex-shrink: 0;
 }
 
+.schengen-crop {
+  position: relative;
+  max-height: 210px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.schengen-crop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 44px;
+  background: linear-gradient(to bottom, transparent, var(--card));
+  pointer-events: none;
+}
+
 .infogram-embed {
   min-height: 280px;
   max-width: 100%;
