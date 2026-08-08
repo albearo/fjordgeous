@@ -757,14 +757,21 @@ button.big-tab-toggle {
 
 .schengen-crop {
   position: relative;
-  max-height: 382px; /* ~55% of the embed's measured height at phone widths (~375px) */
+  /* Visually calibrated by screenshotting the real embed at phone width (375px):
+     true full height is ~1959px (the initial self-reported 467/695px was itself
+     an artifact of the crop constraint, not the real content height). Definitions
+     text ends ~970px, the 32-row country table starts ~1055px — 1010px sits
+     cleanly between the two. */
+  max-height: 1010px;
   overflow: hidden;
   border-radius: 10px;
 }
 
 @media (min-width: 480px) {
   .schengen-crop {
-    max-height: 257px; /* ~55% of the embed's measured height at wider/desktop widths (~578px) */
+    /* Same process at desktop card width (~578px): true full height ~1927px,
+       definitions end ~852px, table starts ~910px. */
+    max-height: 890px;
   }
 }
 
