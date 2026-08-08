@@ -29,7 +29,7 @@ const GeoFacts = (function () {
   function renderIdle(container, enabled) {
     container.innerHTML = `
       <div class="card">
-        <h3 style="margin-top:0;">📍 Nearby facts</h3>
+        <h3 style="margin-top:0;">📍 Nearby Facts</h3>
         <p class="item-notes">${enabled ? 'Watching your location for nearby history and fun facts.' : 'Turn this on to surface history and fun facts automatically as you walk around.'}</p>
         <button class="big-tab-toggle" id="geo-toggle-btn">${enabled ? 'Turn off' : 'Enable nearby facts'}</button>
       </div>

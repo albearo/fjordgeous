@@ -41,7 +41,7 @@ function renderItem(item) {
   let factsHtml = '';
   if (fact) {
     factsHtml = `<details class="item-facts">
-      <summary class="link-btn" style="cursor:pointer;">📚 Fjun fjacts</summary>
+      <summary class="link-btn" style="cursor:pointer;">📚 Fjun Fjacts</summary>
       <div class="fact-bubble">
         <img class="fact-mascot" src="${mascot}" alt="" />
         <div class="fact-speech">
@@ -163,13 +163,13 @@ function renderMapTab() {
 
   let html = `
     <div class="card">
-      <h3 style="margin-top:0;">Saved map</h3>
+      <h3 style="margin-top:0;">Saved Map</h3>
       <p class="item-notes">Embeds your Google My Map when you have signal. <a href="#" id="map-embed-link" class="link-btn">Set embed link</a></p>
       <div id="map-embed-mount"></div>
     </div>
   `;
 
-  html += '<div class="section-title">Offline pin list</div>';
+  html += '<div class="section-title">Offline Pin List</div>';
   Object.keys(byCity).forEach(city => {
     html += `<div class="card"><h3 style="margin-top:0;">${city}</h3>`;
     byCity[city].forEach(loc => {
@@ -202,12 +202,12 @@ function renderMapTab() {
 function renderWidgetsTab() {
   const reading = TripData.itinerary.readingList || [];
   const html = `
-    <div class="card" id="fika-widget-mount"></div>
     <div class="card" id="currency-widget-mount"></div>
     <div class="card" id="weather-widget-mount"></div>
+    <div class="card" id="fika-widget-mount"></div>
     <div class="card" id="election-widget-mount"></div>
     <div class="card" id="news-widget-mount"></div>
-    <div class="section-title">Political background reading</div>
+    <div class="section-title">Political Background Reading</div>
     <div class="card">
       ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div></div>`).join('')}
     </div>
@@ -221,10 +221,12 @@ function renderWidgetsTab() {
       if (el) el.innerHTML = '<p class="empty-state">Couldn\'t load this widget.</p>';
     }
   };
-  if (window.FikaWidget) safeMount(window.FikaWidget.mount, 'fika-widget-mount');
   if (window.CurrencyWidget) safeMount(window.CurrencyWidget.mount, 'currency-widget-mount');
   if (window.LiveData) {
     safeMount(window.LiveData.mountWeather, 'weather-widget-mount');
+  }
+  if (window.FikaWidget) safeMount(window.FikaWidget.mount, 'fika-widget-mount');
+  if (window.LiveData) {
     safeMount(window.LiveData.mountElection, 'election-widget-mount');
     safeMount(window.LiveData.mountNews, 'news-widget-mount');
   }
@@ -237,7 +239,7 @@ function renderInfoTab() {
       <h2 style="margin-top:0;">${trip.title}</h2>
       <p class="item-notes">${trip.dateRange}<br>${trip.route}</p>
     </div>
-    <div class="section-title">About this app</div>
+    <div class="section-title">About This App</div>
     <div class="card">
       <p class="item-notes">Install this to your home screen for the full offline experience — open the browser share/menu and choose "Add to Home Screen". Once installed, the itinerary, tickets, maps list, and history facts all work with no signal. Currency, weather, election polling and news need a connection to refresh, but show the last-known values offline.</p>
     </div>

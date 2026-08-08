@@ -40,7 +40,7 @@ const CurrencyWidget = (function () {
     if (cache) { rates = cache.rates; fetchedAt = cache.fetchedAt; }
 
     container.innerHTML = `
-      <h3 style="margin-top:0;">💱 Currency converter</h3>
+      <h3 style="margin-top:0;">💱 Currency Converter</h3>
       <div class="widget-row">
         <input type="number" id="cc-amount" placeholder="Amount" value="100" min="0" inputmode="decimal">
         <select id="cc-currency">

@@ -42,6 +42,13 @@ const FikaWidget = (function () {
     });
   }
 
+  function currentCityGuess() {
+    try {
+      const day = typeof findTodayDay === 'function' ? findTodayDay() : null;
+      return day ? day.city : '';
+    } catch (e) { return ''; }
+  }
+
   function starRow(rating, interactive) {
     let html = `<div class="star-row${interactive ? ' star-row-input' : ''}" data-rating="${rating}">`;
     for (let i = 1; i <= 5; i++) {
@@ -66,7 +73,7 @@ const FikaWidget = (function () {
               <strong>${c.pastry || 'Pastry'}</strong>
               <button class="fika-delete" data-id="${c.id}" title="Delete">✕</button>
             </div>
-            <div class="fika-entry-cafe">${c.cafe || ''} · ${formatDate(c.ts)}</div>
+            <div class="fika-entry-cafe">${[c.cafe, c.city].filter(Boolean).join(', ')} · ${formatDate(c.ts)}</div>
             ${starRow(c.rating, false)}
             ${c.review ? `<p class="item-notes">${c.review}</p>` : ''}
           </div>
@@ -121,6 +128,7 @@ const FikaWidget = (function () {
       formMount.innerHTML = `
         <div class="fika-form">
           <input type="text" id="fika-cafe" placeholder="Cafe / place" />
+          <input type="text" id="fika-city" placeholder="City" value="${currentCityGuess()}" />
           <input type="text" id="fika-pastry" placeholder="What did you eat?" />
           <div class="star-row star-row-input" id="fika-star-row" data-rating="0">
             ${[1, 2, 3, 4, 5].map(i => `<span class="star" data-star="${i}">★</span>`).join('')}
@@ -142,33 +150,49 @@ const FikaWidget = (function () {
       });
 
       document.getElementById('fika-save-btn').addEventListener('click', () => {
-        const cafe = document.getElementById('fika-cafe').value.trim();
-        const pastry = document.getElementById('fika-pastry').value.trim();
-        const review = document.getElementById('fika-review').value.trim();
+        const cafeEl = document.getElementById('fika-cafe');
+        const pastryEl = document.getElementById('fika-pastry');
+        const reviewEl = document.getElementById('fika-review');
+        const cityEl = document.getElementById('fika-city');
+        const cafe = cafeEl.value.trim();
+        const city = cityEl.value.trim();
+        const pastry = pastryEl.value.trim();
+        const review = reviewEl.value.trim();
         if (!cafe && !pastry) return;
         checkins.push({
           id: uid(),
           ts: Date.now(),
-          cafe, pastry, review,
+          cafe, city, pastry, review,
           rating: pendingRating,
           photo: pendingPhoto
         });
         saveCheckins(checkins);
-        formOpen = false;
+
+        // Keep the form open (and city filled in) so a multi-stop fika
+        // crawl doesn't require re-opening the form for every entry.
+        cafeEl.value = '';
+        pastryEl.value = '';
+        reviewEl.value = '';
         pendingPhoto = null;
         pendingRating = 0;
-        renderForm();
-        document.getElementById('fika-toggle-btn').textContent = '+ Check in a fika';
+        updatePhotoRow();
+        document.querySelectorAll('#fika-star-row .star').forEach(s => s.classList.remove('star-filled'));
+
+        const saveBtn = document.getElementById('fika-save-btn');
+        saveBtn.textContent = 'Saved ✓';
+        setTimeout(() => { if (saveBtn) saveBtn.textContent = 'Save check-in'; }, 1200);
+
         renderListAndExport();
       });
     }
 
     function renderShell() {
       container.innerHTML = `
+        <h3 style="margin-top:0;">☕ Fika Critika</h3>
         <div class="fact-bubble" style="margin-bottom:10px;">
           <img class="fact-mascot" src="assets/illustrations/cardamom-bun.png" alt="" />
           <div class="fact-speech">
-            <p><strong>Cardi B says:</strong> found a good bun? Check it in! ☕🧁</p>
+            <p>Found a good bun? Check it in! ☕🧁</p>
           </div>
         </div>
         <button class="big-tab-toggle" id="fika-toggle-btn">+ Check in a fika</button>

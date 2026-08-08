@@ -84,7 +84,7 @@ const LiveData = (function () {
 
     function render() {
       container.innerHTML = `
-        <h3 style="margin-top:0;">🌦️ 7-day forecast</h3>
+        <h3 style="margin-top:0;">🌦️ 7-Day Forecast</h3>
         ${CITIES.map(c => {
           const days = weatherData[c.name];
           return `<div class="weather-city-block">
@@ -142,7 +142,7 @@ const LiveData = (function () {
 
     function render() {
       container.innerHTML = `
-        <h3 style="margin-top:0;">🗳️ Swedish election 2026</h3>
+        <h3 style="margin-top:0;">🗳️ Swedish Election 2026</h3>
         ${data ? `
           <p class="item-notes">${data.extract}</p>
           <div class="stale-note">As of ${formatAge(fetchedAt)} — <a href="${data.url}" target="_blank" rel="noopener">Wikipedia</a></div>
@@ -165,7 +165,7 @@ const LiveData = (function () {
     const byCountry = {};
     NEWS_LINKS.forEach(l => { byCountry[l.city] = byCountry[l.city] || []; byCountry[l.city].push(l); });
     container.innerHTML = `
-      <h3 style="margin-top:0;">📰 Local news</h3>
+      <h3 style="margin-top:0;">📰 Local News</h3>
       ${Object.keys(byCountry).map(country => `
         <div style="margin-bottom:8px;">
           <strong style="font-size:0.85rem;">${country}</strong>
