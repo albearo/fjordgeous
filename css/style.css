@@ -683,13 +683,45 @@ button.big-tab-toggle {
 }
 
 .fika-entry {
-  display: flex;
-  gap: 10px;
-  padding: 10px 0;
+  padding: 4px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .fika-entry:last-child { border-bottom: none; }
+
+.fika-entry-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fika-entry-summary::-webkit-details-marker { display: none; }
+
+.fika-entry-summary-text {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.fika-entry-summary::before {
+  content: "▸";
+  color: var(--ink-soft);
+  margin-right: 8px;
+  font-size: 0.75rem;
+}
+
+.fika-entry[open] .fika-entry-summary::before {
+  content: "▾";
+}
+
+.fika-entry-body {
+  display: flex;
+  gap: 10px;
+  padding: 4px 0 12px;
+}
 
 .fika-photo {
   width: 64px;
@@ -699,16 +731,9 @@ button.big-tab-toggle {
   flex-shrink: 0;
 }
 
-.fika-entry-body {
+.fika-entry-detail {
   flex: 1;
   min-width: 0;
-}
-
-.fika-entry-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
 }
 
 .fika-entry-cafe {

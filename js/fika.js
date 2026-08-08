@@ -65,19 +65,23 @@ const FikaWidget = (function () {
     let pendingRating = 0;
 
     function entryHtml(c) {
+      const summaryText = [c.cafe, c.city].filter(Boolean).join(', ') || 'Unnamed fika';
       return `
-        <div class="fika-entry" data-id="${c.id}">
-          ${c.photo ? `<img class="fika-photo" src="${c.photo}" alt="" />` : ''}
+        <details class="fika-entry" data-id="${c.id}">
+          <summary class="fika-entry-summary">
+            <span class="fika-entry-summary-text">${summaryText}</span>
+            <button class="fika-delete" data-id="${c.id}" title="Delete">✕</button>
+          </summary>
           <div class="fika-entry-body">
-            <div class="fika-entry-top">
+            ${c.photo ? `<img class="fika-photo" src="${c.photo}" alt="" />` : ''}
+            <div class="fika-entry-detail">
               <strong>${c.pastry || 'Pastry'}</strong>
-              <button class="fika-delete" data-id="${c.id}" title="Delete">✕</button>
+              <div class="fika-entry-cafe">${summaryText} · ${formatDate(c.ts)}</div>
+              ${starRow(c.rating, false)}
+              ${c.review ? `<p class="item-notes">${c.review}</p>` : ''}
             </div>
-            <div class="fika-entry-cafe">${[c.cafe, c.city].filter(Boolean).join(', ')} · ${formatDate(c.ts)}</div>
-            ${starRow(c.rating, false)}
-            ${c.review ? `<p class="item-notes">${c.review}</p>` : ''}
           </div>
-        </div>
+        </details>
       `;
     }
 
@@ -87,7 +91,9 @@ const FikaWidget = (function () {
         ? '<p class="empty-state">No check-ins yet — first pastry, first entry!</p>'
         : checkins.slice().reverse().map(entryHtml).join('');
       listMount.querySelectorAll('.fika-delete').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
           checkins = checkins.filter(c => c.id !== btn.dataset.id);
           saveCheckins(checkins);
           renderListAndExport();
