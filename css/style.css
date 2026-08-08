@@ -757,9 +757,15 @@ button.big-tab-toggle {
 
 .schengen-crop {
   position: relative;
-  max-height: 257px;
+  max-height: 382px; /* ~55% of the embed's measured height at phone widths (~375px) */
   overflow: hidden;
   border-radius: 10px;
+}
+
+@media (min-width: 480px) {
+  .schengen-crop {
+    max-height: 257px; /* ~55% of the embed's measured height at wider/desktop widths (~578px) */
+  }
 }
 
 .schengen-crop::after {
