@@ -754,3 +754,13 @@ button.big-tab-toggle {
   padding: 2px 6px;
   flex-shrink: 0;
 }
+
+.infogram-embed {
+  min-height: 280px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.infogram-embed iframe {
+  max-width: 100% !important;
+}

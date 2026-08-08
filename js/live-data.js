@@ -135,6 +135,29 @@ const LiveData = (function () {
     throw new Error('no candidate page found');
   }
 
+  function loadInfogramEmbeds() {
+    const scriptId = 'infogram-async';
+    if (window.InfogramEmbeds && window.InfogramEmbeds.initialized) {
+      window.InfogramEmbeds.process && window.InfogramEmbeds.process();
+      return;
+    }
+    if (document.getElementById(scriptId)) return;
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.async = true;
+    script.src = 'https://e.infogram.com/js/dist/embed-loader-min.js';
+    document.body.appendChild(script);
+  }
+
+  function mountSchengen(container) {
+    container.innerHTML = `
+      <h3 style="margin-top:0;">🇪🇺 Schengen Scmengen</h3>
+      <div class="infogram-embed" data-id="who_belongs_to_what_in_europe_schengen_eea_efta_and_more" data-type="interactive" data-title="Who belongs to what in Europe? Schengen, EEA, EFTA and more"></div>
+      <div class="stale-note">Interactive map — opens live, needs a connection.</div>
+    `;
+    loadInfogramEmbeds();
+  }
+
   function mountElection(container) {
     const cache = loadCache(ELECTION_CACHE_KEY);
     let data = cache ? cache.data : null;
@@ -178,7 +201,7 @@ const LiveData = (function () {
     `;
   }
 
-  return { mountWeather, mountElection, mountNews, CITIES };
+  return { mountWeather, mountSchengen, mountElection, mountNews, CITIES };
 })();
 
 window.LiveData = LiveData;
