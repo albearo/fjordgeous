@@ -625,3 +625,104 @@ button.big-tab-toggle {
   cursor: pointer;
   margin-bottom: 10px;
 }
+
+.star-row {
+  display: flex;
+  gap: 4px;
+  margin: 6px 0;
+}
+
+.star {
+  font-size: 1.3rem;
+  color: var(--line);
+}
+
+.star-filled {
+  color: var(--yellow);
+}
+
+.star-row-input .star {
+  cursor: pointer;
+}
+
+.fika-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+  padding: 12px;
+  background: var(--type-dining-bg);
+  border-radius: 12px;
+}
+
+.fika-form input[type="text"],
+.fika-form textarea {
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.fika-photo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fika-photo-preview {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.fika-entry {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.fika-entry:last-child { border-bottom: none; }
+
+.fika-photo {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.fika-entry-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fika-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.fika-entry-cafe {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-bottom: 2px;
+}
+
+.fika-delete {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}

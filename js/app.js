@@ -202,6 +202,7 @@ function renderMapTab() {
 function renderWidgetsTab() {
   const reading = TripData.itinerary.readingList || [];
   const html = `
+    <div class="card" id="fika-widget-mount"></div>
     <div class="card" id="currency-widget-mount"></div>
     <div class="card" id="weather-widget-mount"></div>
     <div class="card" id="election-widget-mount"></div>
@@ -220,6 +221,7 @@ function renderWidgetsTab() {
       if (el) el.innerHTML = '<p class="empty-state">Couldn\'t load this widget.</p>';
     }
   };
+  if (window.FikaWidget) safeMount(window.FikaWidget.mount, 'fika-widget-mount');
   if (window.CurrencyWidget) safeMount(window.CurrencyWidget.mount, 'currency-widget-mount');
   if (window.LiveData) {
     safeMount(window.LiveData.mountWeather, 'weather-widget-mount');
