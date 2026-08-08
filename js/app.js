@@ -1,7 +1,11 @@
 const STATUS_LABELS = { booked: 'Booked', planned: 'Planned', optional: 'Optional' };
 const TYPE_ICONS = {
-  transit: '🚆', lodging: '🛏️', dining: '🍽️', sight: '📍',
+  transit: '🚆', lodging: '🛏️', dining: '🍽️', museum: '🏛️', walking: '🚶',
   event: '🎉', logistics: '🧳'
+};
+const TYPE_LABELS = {
+  museum: 'Museum', walking: 'Walking', dining: 'Dining', transit: 'Transit',
+  lodging: 'Lodging', event: 'Event', logistics: 'Logistics'
 };
 const TRANSIT_MODE_ICONS = {
   flight: 'assets/illustrations/plane.png',
@@ -10,6 +14,7 @@ const TRANSIT_MODE_ICONS = {
 };
 
 let currentFilter = 'all';
+let currentTypeFilter = 'all';
 
 function mapsSearchUrl(loc) {
   if (!loc) return null;
@@ -67,7 +72,9 @@ function renderItem(item) {
 }
 
 function renderDayCard(day, opts = {}) {
-  const items = currentFilter === 'all' ? day.items : day.items.filter(i => i.status === currentFilter);
+  let items = day.items;
+  if (currentFilter !== 'all') items = items.filter(i => i.status === currentFilter);
+  if (currentTypeFilter !== 'all') items = items.filter(i => i.type === currentTypeFilter);
   if (opts.filterHide && items.length === 0) return '';
   const cityNotesHtml = day.cityNotes ? `
     <div class="city-notes">
@@ -103,10 +110,23 @@ function renderFilterRow() {
   </div>`;
 }
 
+function renderTypeFilterRow() {
+  const types = ['all', 'museum', 'walking', 'dining', 'transit', 'lodging', 'event', 'logistics'];
+  return `<div class="filter-row">
+    ${types.map(t => `<button class="filter-chip ${currentTypeFilter === t ? 'active' : ''}" data-type-filter="${t}">${t === 'all' ? 'All' : (TYPE_ICONS[t] + ' ' + TYPE_LABELS[t])}</button>`).join('')}
+  </div>`;
+}
+
 function attachFilterHandlers(container) {
-  container.querySelectorAll('.filter-chip').forEach(btn => {
+  container.querySelectorAll('.filter-chip[data-filter]').forEach(btn => {
     btn.addEventListener('click', () => {
       currentFilter = btn.dataset.filter;
+      renderActiveTab();
+    });
+  });
+  container.querySelectorAll('.filter-chip[data-type-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentTypeFilter = btn.dataset.typeFilter;
       renderActiveTab();
     });
   });
@@ -128,6 +148,7 @@ function renderTodayTab() {
 
   if (activeDay) {
     html += renderFilterRow();
+    html += renderTypeFilterRow();
     html += renderDayCard(activeDay);
   } else if (today < first) {
     const diffDays = Math.round((first - today) / 86400000);
@@ -149,6 +170,7 @@ function renderTodayTab() {
 
 function renderItineraryTab() {
   let html = renderFilterRow();
+  html += renderTypeFilterRow();
   html += TripData.itinerary.days.map(d => renderDayCard(d, { filterHide: true })).join('');
   document.getElementById('main-content').innerHTML = html;
   attachFilterHandlers(document.getElementById('main-content'));
@@ -274,6 +296,7 @@ function setupTabs() {
       btn.classList.add('active');
       activeTab = btn.dataset.tab;
       currentFilter = 'all';
+      currentTypeFilter = 'all';
       renderActiveTab();
       window.scrollTo(0, 0);
     });
