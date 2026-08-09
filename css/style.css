@@ -482,9 +482,15 @@ main#main-content {
 }
 
 .weather-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  display: flex;
   gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  padding-bottom: 4px;
+  margin: 0 -2px;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .weather-grid-cell {
@@ -492,6 +498,8 @@ main#main-content {
   border-radius: 10px;
   padding: 6px 2px 8px;
   text-align: center;
+  flex: 0 0 58px;
+  scroll-snap-align: start;
 }
 
 .wg-day {
