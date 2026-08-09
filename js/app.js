@@ -18,7 +18,8 @@ let currentTypeFilter = 'all';
 
 function mapsSearchUrl(loc) {
   if (!loc) return null;
-  return `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`;
+  const query = loc.name ? `${loc.name},${loc.lat},${loc.lng}` : `${loc.lat},${loc.lng}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 function renderItem(item) {
