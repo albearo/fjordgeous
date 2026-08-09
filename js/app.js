@@ -1,11 +1,11 @@
 const STATUS_LABELS = { booked: 'Booked', planned: 'Planned', optional: 'Optional' };
 const TYPE_ICONS = {
-  transit: '🚆', lodging: '🛏️', dining: '🍽️', museum: '🏛️', walking: '🚶',
-  event: '🎉', logistics: '🧳'
+  transit: '🚆', lodging: '🛏️', dining: '🍽️', landmark: '🏛️', walking: '🚶',
+  event: '🎉'
 };
 const TYPE_LABELS = {
-  museum: 'Museum', walking: 'Walking', dining: 'Dining', transit: 'Transit',
-  lodging: 'Lodging', event: 'Event', logistics: 'Logistics'
+  landmark: 'Landmark', walking: 'Walking', dining: 'Dining', transit: 'Transit',
+  lodging: 'Lodging', event: 'Event'
 };
 const TRANSIT_MODE_ICONS = {
   flight: 'assets/illustrations/plane.png',
@@ -23,8 +23,8 @@ function mapsSearchUrl(loc) {
 }
 
 function renderItem(item) {
-  const modeIcon = item.type === 'transit' ? TRANSIT_MODE_ICONS[item.mode] : null;
-  const icon = TYPE_ICONS[item.type] || '📍';
+  const modeIcon = !item.icon && item.type === 'transit' ? TRANSIT_MODE_ICONS[item.mode] : null;
+  const icon = item.icon || TYPE_ICONS[item.type] || '📍';
   const titleIcon = modeIcon
     ? `<img class="transit-icon" src="${modeIcon}" alt="" />`
     : icon;
@@ -78,10 +78,10 @@ function renderDayCard(day, opts = {}) {
   if (currentTypeFilter !== 'all') items = items.filter(i => i.type === currentTypeFilter);
   if (opts.filterHide && items.length === 0) return '';
   const cityNotesHtml = day.cityNotes ? `
-    <div class="city-notes">
-      <strong>City notes</strong>
+    <details class="city-notes">
+      <summary>City Notes</summary>
       <ul>${day.cityNotes.map(n => `<li>${n}</li>`).join('')}</ul>
-    </div>` : '';
+    </details>` : '';
 
   return `
     <div class="card">
@@ -112,7 +112,7 @@ function renderFilterRow() {
 }
 
 function renderTypeFilterRow() {
-  const types = ['all', 'museum', 'walking', 'dining', 'transit', 'lodging', 'event', 'logistics'];
+  const types = ['all', 'landmark', 'walking', 'dining', 'transit', 'lodging', 'event'];
   return `<div class="filter-row">
     ${types.map(t => `<button class="filter-chip ${t !== 'all' ? 'type-' + t : ''} ${currentTypeFilter === t ? 'active' : ''}" data-type-filter="${t}">${t === 'all' ? 'All' : TYPE_LABELS[t]}</button>`).join('')}
   </div>`;
@@ -148,8 +148,8 @@ function renderTodayTab() {
   let html = '<div id="geo-fact-mount"></div><div id="word-of-day-mount"></div>';
 
   if (activeDay) {
-    html += renderFilterRow();
     html += renderTypeFilterRow();
+    html += renderFilterRow();
     html += renderDayCard(activeDay);
   } else if (today < first) {
     const diffDays = Math.round((first - today) / 86400000);
@@ -171,8 +171,8 @@ function renderTodayTab() {
 }
 
 function renderItineraryTab() {
-  let html = renderFilterRow();
-  html += renderTypeFilterRow();
+  let html = renderTypeFilterRow();
+  html += renderFilterRow();
   html += TripData.itinerary.days.map(d => renderDayCard(d, { filterHide: true })).join('');
   document.getElementById('main-content').innerHTML = html;
   attachFilterHandlers(document.getElementById('main-content'));
@@ -230,12 +230,12 @@ function renderWidgetsTab() {
     <div class="card" id="weather-widget-mount"></div>
     <div class="card" id="fika-widget-mount"></div>
     <div class="card" id="election-widget-mount"></div>
-    <div class="card" id="news-widget-mount"></div>
     <div class="card" id="schengen-widget-mount"></div>
-    <div class="section-title">Political Background Reading</div>
     <div class="card">
+      <h3 style="margin-top:0;">📚 Political Background Reading</h3>
       ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div>${r.funFact ? `<details class="item-facts"><summary class="link-btn" style="cursor:pointer;">🔍 Fjun Fjact</summary><p class="item-notes">${r.funFact}</p></details>` : ''}</div>`).join('')}
     </div>
+    <div class="card" id="news-widget-mount"></div>
   `;
   document.getElementById('main-content').innerHTML = html;
   const safeMount = (fn, containerId) => {

@@ -12,7 +12,7 @@ const LiveData = (function () {
 
   const NEWS_LINKS = [
     { city: 'Sweden', name: 'The Local Sweden', url: 'https://www.thelocal.se' },
-    { city: 'Sweden', name: 'SVT Nyheter (English filter via Google Translate)', url: 'https://www.svt.se/nyheter/' },
+    { city: 'Sweden', name: 'SVT Nyheter', url: 'https://www.svt.se/nyheter/' },
     { city: 'Denmark', name: 'The Local Denmark', url: 'https://www.thelocal.dk' },
     { city: 'Denmark', name: 'CPH Post', url: 'https://cphpost.dk' },
     { city: 'Norway', name: 'The Local Norway', url: 'https://www.thelocal.no' },

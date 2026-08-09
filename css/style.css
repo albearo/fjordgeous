@@ -23,14 +23,12 @@
   --type-lodging-bg: #f0ecf5;
   --type-dining: #d9673f;
   --type-dining-bg: #fbe7df;
-  --type-museum: #6e8a5b;
-  --type-museum-bg: #eaf0e2;
+  --type-landmark: #6e8a5b;
+  --type-landmark-bg: #eaf0e2;
   --type-walking: #3f8f82;
   --type-walking-bg: #e2f0ee;
-  --type-event: #c97b6f;
-  --type-event-bg: #f7e6e1;
-  --type-logistics: #8a8478;
-  --type-logistics-bg: #f0ede6;
+  --type-event: #b8577a;
+  --type-event-bg: #f5d9e3;
 }
 
 * { box-sizing: border-box; }
@@ -241,10 +239,9 @@ main#main-content {
 .item.type-transit { background: var(--type-transit-bg); }
 .item.type-lodging { background: var(--type-lodging-bg); }
 .item.type-dining { background: var(--type-dining-bg); }
-.item.type-museum { background: var(--type-museum-bg); }
+.item.type-landmark { background: var(--type-landmark-bg); }
 .item.type-walking { background: var(--type-walking-bg); }
 .item.type-event { background: var(--type-event-bg); }
-.item.type-logistics { background: var(--type-logistics-bg); }
 
 .item.status-booked { border-left-color: var(--booked); }
 .item.status-planned { border-left-color: var(--planned); }
@@ -406,18 +403,16 @@ main#main-content {
 .filter-chip.type-transit { background: var(--type-transit-bg); }
 .filter-chip.type-lodging { background: var(--type-lodging-bg); }
 .filter-chip.type-dining { background: var(--type-dining-bg); }
-.filter-chip.type-museum { background: var(--type-museum-bg); }
+.filter-chip.type-landmark { background: var(--type-landmark-bg); }
 .filter-chip.type-walking { background: var(--type-walking-bg); }
 .filter-chip.type-event { background: var(--type-event-bg); }
-.filter-chip.type-logistics { background: var(--type-logistics-bg); }
 
 .filter-chip.type-transit.active,
 .filter-chip.type-lodging.active,
 .filter-chip.type-dining.active,
-.filter-chip.type-museum.active,
+.filter-chip.type-landmark.active,
 .filter-chip.type-walking.active,
-.filter-chip.type-event.active,
-.filter-chip.type-logistics.active {
+.filter-chip.type-event.active {
   background: var(--blue);
   color: white;
   border-color: var(--blue);
@@ -432,7 +427,12 @@ main#main-content {
   color: var(--ink);
 }
 
-.city-notes ul { margin: 4px 0 0; padding-left: 18px; }
+.city-notes summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.city-notes ul { margin: 8px 0 0; padding-left: 18px; }
 
 /* Widgets */
 .widget-row {
