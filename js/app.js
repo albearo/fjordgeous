@@ -106,14 +106,14 @@ function renderFilterRow() {
   const filters = ['all', 'booked', 'planned', 'optional'];
   const labels = { all: 'All', booked: 'Booked', planned: 'Planned', optional: 'Optional' };
   return `<div class="filter-row">
-    ${filters.map(f => `<button class="filter-chip ${currentFilter === f ? 'active' : ''}" data-filter="${f}">${labels[f]}</button>`).join('')}
+    ${filters.map(f => `<button class="filter-chip ${f !== 'all' ? 'status-' + f : ''} ${currentFilter === f ? 'active' : ''}" data-filter="${f}">${labels[f]}</button>`).join('')}
   </div>`;
 }
 
 function renderTypeFilterRow() {
   const types = ['all', 'museum', 'walking', 'dining', 'transit', 'lodging', 'event', 'logistics'];
   return `<div class="filter-row">
-    ${types.map(t => `<button class="filter-chip ${currentTypeFilter === t ? 'active' : ''}" data-type-filter="${t}">${t === 'all' ? 'All' : (TYPE_ICONS[t] + ' ' + TYPE_LABELS[t])}</button>`).join('')}
+    ${types.map(t => `<button class="filter-chip ${t !== 'all' ? 'type-' + t : ''} ${currentTypeFilter === t ? 'active' : ''}" data-type-filter="${t}">${t === 'all' ? 'All' : TYPE_LABELS[t]}</button>`).join('')}
   </div>`;
 }
 
@@ -144,7 +144,7 @@ function renderTodayTab() {
   const last = parseISODate(days[days.length - 1].date);
   const activeDay = findTodayDay();
 
-  let html = '<div id="geo-fact-mount"></div>';
+  let html = '<div id="geo-fact-mount"></div><div id="word-of-day-mount"></div>';
 
   if (activeDay) {
     html += renderFilterRow();
@@ -166,6 +166,7 @@ function renderTodayTab() {
   document.getElementById('main-content').innerHTML = html;
   attachFilterHandlers(document.getElementById('main-content'));
   if (window.GeoFacts) window.GeoFacts.mount(document.getElementById('geo-fact-mount'));
+  if (window.WordOfDay) window.WordOfDay.mount(document.getElementById('word-of-day-mount'));
 }
 
 function renderItineraryTab() {
@@ -196,7 +197,7 @@ function renderMapTab() {
     html += `<div class="card"><h3 style="margin-top:0;">${city}</h3>`;
     byCity[city].forEach(loc => {
       html += `<div class="pin-list-item">
-        <span>${TYPE_ICONS[loc.category] || '📍'} ${loc.name}</span>
+        <span>${TYPE_ICONS[loc.category] || '📍'} ${loc.name}${loc.note ? `<span class="pin-note">${loc.note}</span>` : ''}</span>
         <a href="${mapsSearchUrl(loc)}" target="_blank" rel="noopener" class="link-btn">Open</a>
       </div>`;
     });
@@ -232,7 +233,7 @@ function renderWidgetsTab() {
     <div class="card" id="schengen-widget-mount"></div>
     <div class="section-title">Political Background Reading</div>
     <div class="card">
-      ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div></div>`).join('')}
+      ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div>${r.funFact ? `<details class="item-facts"><summary class="link-btn" style="cursor:pointer;">🔍 Fjun Fjact</summary><p class="item-notes">${r.funFact}</p></details>` : ''}</div>`).join('')}
     </div>
   `;
   document.getElementById('main-content').innerHTML = html;

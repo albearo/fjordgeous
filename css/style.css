@@ -395,6 +395,34 @@ main#main-content {
   border-color: var(--blue);
 }
 
+.filter-chip.status-booked { border-left: 4px solid var(--booked); }
+.filter-chip.status-planned { border-left: 4px solid var(--planned); }
+.filter-chip.status-optional { border-left: 4px solid var(--optional); }
+
+.filter-chip.status-booked.active { background: var(--booked); border-color: var(--booked); color: white; }
+.filter-chip.status-planned.active { background: var(--planned); border-color: var(--planned); color: white; }
+.filter-chip.status-optional.active { background: var(--optional); border-color: var(--optional); color: white; }
+
+.filter-chip.type-transit { background: var(--type-transit-bg); }
+.filter-chip.type-lodging { background: var(--type-lodging-bg); }
+.filter-chip.type-dining { background: var(--type-dining-bg); }
+.filter-chip.type-museum { background: var(--type-museum-bg); }
+.filter-chip.type-walking { background: var(--type-walking-bg); }
+.filter-chip.type-event { background: var(--type-event-bg); }
+.filter-chip.type-logistics { background: var(--type-logistics-bg); }
+
+.filter-chip.type-transit.active,
+.filter-chip.type-lodging.active,
+.filter-chip.type-dining.active,
+.filter-chip.type-museum.active,
+.filter-chip.type-walking.active,
+.filter-chip.type-event.active,
+.filter-chip.type-logistics.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
 .city-notes {
   background: var(--optional-bg);
   border-radius: 10px;
@@ -502,6 +530,37 @@ main#main-content {
 }
 
 .pin-list-item:last-child { border-bottom: none; }
+
+.word-of-day {
+  margin-bottom: 8px;
+}
+
+.wod-word {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.wod-pronunciation {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.wod-use {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.pin-note {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 2px;
+  line-height: 1.3;
+}
 
 .map-embed {
   width: 100%;

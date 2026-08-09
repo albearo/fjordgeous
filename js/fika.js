@@ -49,6 +49,48 @@ const FikaWidget = (function () {
     } catch (e) { return ''; }
   }
 
+  const CITY_COUNTRY = {
+    'Stockholm': 'Sweden', 'Copenhagen': 'Denmark', 'Oslo': 'Norway',
+    'Flåm': 'Norway', 'Gudvangen': 'Norway', 'Voss': 'Norway', 'Bergen': 'Norway'
+  };
+
+  const QUIPS_GENERAL = [
+    'Got buns, hon?',
+    'I knead the deets!',
+    'Fika or fik-meh?',
+    'Cardamom? More like cardaYUM!',
+    "Hope this one wasn't crumby!",
+    'Upper crust or totally crumby?',
+    'Did it rise to the occasion?',
+    'Dough not pastry gatekeep!',
+    'Espresso yourself, how was it?',
+    'You brew you!',
+    "Let's roll!",
+    "Let's get this bread, brø.",
+    'Be honest, is Cinnabon better?',
+    'Did you lika the fika?',
+    "Don't sugarcoat it… unless it's sugarcoated!",
+    'So? Was it fikanomenal?',
+    'I hope it was bun-derful!',
+    'Bready to review?',
+    'Scandi-map-ia for a fika!'
+  ];
+  const QUIPS_BY_COUNTRY = {
+    'Sweden': ['Swede success or a total flop?'],
+    'Denmark': ['Hygge success or hygge letdown?', 'Did you Copen-happen to love it?'],
+    'Norway': ["There's Norway you don't have an opinion!"]
+  };
+  const QUIPS_BERGEN = ['Did it leave you Bergen for more?!'];
+
+  function randomQuip() {
+    const city = currentCityGuess();
+    const country = CITY_COUNTRY[city];
+    let pool = QUIPS_GENERAL.slice();
+    if (country && QUIPS_BY_COUNTRY[country]) pool = pool.concat(QUIPS_BY_COUNTRY[country]);
+    if (city === 'Bergen') pool = pool.concat(QUIPS_BERGEN);
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
   function starRow(rating, interactive) {
     let html = `<div class="star-row${interactive ? ' star-row-input' : ''}" data-rating="${rating}">`;
     for (let i = 1; i <= 5; i++) {
@@ -198,7 +240,7 @@ const FikaWidget = (function () {
         <div class="fact-bubble" style="margin-bottom:10px;">
           <img class="fact-mascot" src="assets/illustrations/cardamom-bun.png" alt="" />
           <div class="fact-speech">
-            <p>Found a good bun? Check it in! ☕🧁</p>
+            <p>${randomQuip()}</p>
           </div>
         </div>
         <button class="big-tab-toggle" id="fika-toggle-btn">+ Check in a fika</button>

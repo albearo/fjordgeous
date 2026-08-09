@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scandi-trip-v17';
+const CACHE_NAME = 'scandi-trip-v18';
 
 const PRECACHE_ASSETS = [
   './',
@@ -12,6 +12,7 @@ const PRECACHE_ASSETS = [
   'js/live-data.js',
   'js/fika.js',
   'js/geolocation.js',
+  'js/word-of-day.js',
   'js/sw-register.js',
   'data/bundle.enc.json',
   'assets/icons/icon-192.png',
