@@ -502,6 +502,18 @@ main#main-content {
   scroll-snap-align: start;
 }
 
+@media (min-width: 480px) {
+  .weather-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    overflow-x: visible;
+  }
+  .weather-grid-cell {
+    flex: unset;
+    min-width: 0;
+  }
+}
+
 .wg-day {
   font-size: 0.62rem;
   font-weight: 700;

@@ -229,12 +229,12 @@ function renderWidgetsTab() {
     <div class="card" id="currency-widget-mount"></div>
     <div class="card" id="weather-widget-mount"></div>
     <div class="card" id="fika-widget-mount"></div>
-    <div class="card" id="election-widget-mount"></div>
     <div class="card" id="schengen-widget-mount"></div>
     <div class="card">
       <h3 style="margin-top:0;">📚 Political Background Reading</h3>
       ${reading.map(r => `<div class="reading-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><div class="source">${r.source}</div>${r.funFact ? `<details class="item-facts"><summary class="link-btn" style="cursor:pointer;">🔍 Fjun Fjact</summary><p class="item-notes">${r.funFact}</p></details>` : ''}</div>`).join('')}
     </div>
+    <div class="card" id="election-widget-mount"></div>
     <div class="card" id="news-widget-mount"></div>
   `;
   document.getElementById('main-content').innerHTML = html;
