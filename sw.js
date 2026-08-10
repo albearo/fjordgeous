@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scandi-trip-v24';
+const CACHE_NAME = 'scandi-trip-v25';
 
 const PRECACHE_ASSETS = [
   './',
@@ -22,7 +22,6 @@ const PRECACHE_ASSETS = [
   'assets/icons/nav-itinerary.png',
   'assets/icons/nav-map.png',
   'assets/icons/nav-widgets.png',
-  'assets/icons/nav-info.png',
   'assets/illustrations/viking.png',
   'assets/illustrations/cardamom-bun.png',
   'assets/illustrations/plane.png',

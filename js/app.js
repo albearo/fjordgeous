@@ -191,11 +191,11 @@ function renderPrintHeader() {
 }
 
 function renderItineraryTab() {
-  let html = `<button class="link-btn no-print" id="print-itinerary-btn" style="cursor:pointer; background:none; border:none; padding:0; margin-bottom:10px;">🖨️ Print / Save as PDF</button>`;
-  html += renderPrintHeader();
+  let html = renderPrintHeader();
   html += renderTypeFilterRow();
   html += renderFilterRow();
   html += TripData.itinerary.days.map(d => renderDayCard(d, { filterHide: true })).join('');
+  html += `<button class="link-btn no-print" id="print-itinerary-btn" style="cursor:pointer; background:none; border:none; padding:0; margin-top:14px; margin-bottom:20px;">🖨️ Print / Save as PDF</button>`;
   document.getElementById('main-content').innerHTML = html;
   attachFilterHandlers(document.getElementById('main-content'));
 
@@ -275,6 +275,12 @@ function renderWidgetsTab() {
     </div>
     <div class="card" id="election-widget-mount"></div>
     <div class="card" id="news-widget-mount"></div>
+    <div class="card">
+      <h3 style="margin-top:0;">ℹ️ About This App</h3>
+      <p class="item-notes">Install this to your home screen for the full offline experience — open the browser share/menu and choose "Add to Home Screen". Once installed, the itinerary, tickets, maps list, and history facts all work with no signal. Currency, weather, election polling and news need a connection to refresh, but show the last-known values offline.</p>
+      <p class="item-notes">This app remembers the passphrase on this device so it won't ask again. Tap below before handing your phone to someone else.</p>
+      <button class="big-tab-toggle" id="lock-app-btn">🔒 Lock this app</button>
+    </div>
   `;
   document.getElementById('main-content').innerHTML = html;
   const safeMount = (fn, containerId) => {
@@ -295,25 +301,6 @@ function renderWidgetsTab() {
     safeMount(window.LiveData.mountNews, 'news-widget-mount');
     safeMount(window.LiveData.mountSchengen, 'schengen-widget-mount');
   }
-}
-
-function renderInfoTab() {
-  const trip = TripData.itinerary.trip;
-  let html = `
-    <div class="card">
-      <h2 style="margin-top:0;">${trip.title}</h2>
-      <p class="item-notes">${trip.dateRange}<br>${trip.route}</p>
-    </div>
-    <div class="section-title">About This App</div>
-    <div class="card">
-      <p class="item-notes">Install this to your home screen for the full offline experience — open the browser share/menu and choose "Add to Home Screen". Once installed, the itinerary, tickets, maps list, and history facts all work with no signal. Currency, weather, election polling and news need a connection to refresh, but show the last-known values offline.</p>
-    </div>
-    <div class="card">
-      <p class="item-notes">This app remembers the passphrase on this device so it won't ask again. Tap below before handing your phone to someone else.</p>
-      <button class="big-tab-toggle" id="lock-app-btn">🔒 Lock this app</button>
-    </div>
-  `;
-  document.getElementById('main-content').innerHTML = html;
   const lockBtn = document.getElementById('lock-app-btn');
   if (lockBtn) lockBtn.addEventListener('click', () => window.CryptoGate.lock());
 }
@@ -322,8 +309,7 @@ const TAB_RENDERERS = {
   today: renderTodayTab,
   itinerary: renderItineraryTab,
   map: renderMapTab,
-  widgets: renderWidgetsTab,
-  info: renderInfoTab
+  widgets: renderWidgetsTab
 };
 
 let activeTab = 'today';
