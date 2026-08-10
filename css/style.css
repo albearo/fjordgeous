@@ -874,3 +874,44 @@ button.big-tab-toggle {
 .infogram-embed iframe {
   max-width: 100% !important;
 }
+
+.print-header {
+  display: none;
+}
+
+@media print {
+  .tab-bar, .app-header, #toast, .filter-row, .item-links, .no-print,
+  #geo-fact-mount, #word-of-day-mount, .map-embed-mount, #map-embed-link {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    padding-bottom: 0;
+  }
+
+  .print-header {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .print-header h1 { margin: 0 0 4px; font-size: 1.3rem; }
+  .print-header p { margin: 0; font-size: 0.85rem; color: var(--ink-soft); }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .city-notes {
+    break-inside: avoid;
+  }
+
+  details summary {
+    list-style: none;
+  }
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+}

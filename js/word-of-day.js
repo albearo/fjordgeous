@@ -1,14 +1,4 @@
 const WordOfDay = (function () {
-  const CITY_COUNTRY = {
-    'Stockholm': 'Sweden',
-    'Copenhagen': 'Denmark',
-    'Oslo': 'Norway',
-    'Flåm': 'Norway',
-    'Gudvangen': 'Norway',
-    'Voss': 'Norway',
-    'Bergen': 'Norway'
-  };
-
   const COUNTRY_TITLE = {
     'Sweden': 'Scandi Says',
     'Denmark': 'I Hope You Dansk',
@@ -66,7 +56,7 @@ const WordOfDay = (function () {
     if (activeDay) city = activeDay.city;
     else if (today < first) city = days[0].city;
     else city = days[days.length - 1].city;
-    return CITY_COUNTRY[city] || 'Sweden';
+    return cityCountry(city) || 'Sweden';
   }
 
   function mount(container) {

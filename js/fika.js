@@ -49,11 +49,6 @@ const FikaWidget = (function () {
     } catch (e) { return ''; }
   }
 
-  const CITY_COUNTRY = {
-    'Stockholm': 'Sweden', 'Copenhagen': 'Denmark', 'Oslo': 'Norway',
-    'Flåm': 'Norway', 'Gudvangen': 'Norway', 'Voss': 'Norway', 'Bergen': 'Norway'
-  };
-
   const QUIPS_GENERAL = [
     'Got buns, hon?',
     'I knead the deets!',
@@ -84,7 +79,7 @@ const FikaWidget = (function () {
 
   function randomQuip() {
     const city = currentCityGuess();
-    const country = CITY_COUNTRY[city];
+    const country = cityCountry(city);
     let pool = QUIPS_GENERAL.slice();
     if (country && QUIPS_BY_COUNTRY[country]) pool = pool.concat(QUIPS_BY_COUNTRY[country]);
     if (city === 'Bergen') pool = pool.concat(QUIPS_BERGEN);

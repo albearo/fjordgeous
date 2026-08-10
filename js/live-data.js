@@ -2,13 +2,9 @@ const LiveData = (function () {
   const WEATHER_CACHE_KEY = 'weatherCacheV2';
   const ELECTION_CACHE_KEY = 'electionCache';
 
-  const CITIES = [
-    { name: 'Stockholm', lat: 59.3293, lng: 18.0686 },
-    { name: 'Copenhagen', lat: 55.6761, lng: 12.5683 },
-    { name: 'Oslo', lat: 59.9139, lng: 10.7522 },
-    { name: 'Flåm', lat: 60.8633, lng: 7.1136 },
-    { name: 'Bergen', lat: 60.3913, lng: 5.3221 }
-  ];
+  const CITIES = Object.keys(TRIP_CITIES)
+    .filter(name => TRIP_CITIES[name].lat != null)
+    .map(name => ({ name, lat: TRIP_CITIES[name].lat, lng: TRIP_CITIES[name].lng }));
 
   const NEWS_LINKS = [
     { city: 'Sweden', name: 'The Local Sweden', url: 'https://www.thelocal.se' },

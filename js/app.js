@@ -7,6 +7,10 @@ const TYPE_LABELS = {
   landmark: 'Landmark', walking: 'Walking', dining: 'Dining', transit: 'Transit',
   lodging: 'Lodging', event: 'Event'
 };
+const LOCATION_CATEGORY_ICONS = {
+  transit: '🚆', lodging: '🛏️', dining: '🍽️', event: '🎉',
+  sight: '🏛️', shop: '🛍️', wellness: '🧖'
+};
 const TRANSIT_MODE_ICONS = {
   flight: 'assets/illustrations/plane.png',
   train: 'assets/illustrations/train.png',
@@ -36,7 +40,12 @@ function renderItem(item) {
   if (item.ticketFile) {
     links += `<a href="assets/tickets/${item.ticketFile}" target="_blank" rel="noopener">🎫 Ticket</a>`;
   }
-  if (mapsUrl) {
+  if (item.mapLinks) {
+    item.mapLinks.forEach(ml => {
+      const mlUrl = mapsSearchUrl(getLocation(ml.locationId));
+      if (mlUrl) links += `<a href="${mlUrl}" target="_blank" rel="noopener">🗺️ ${ml.label}</a>`;
+    });
+  } else if (mapsUrl) {
     links += `<a href="${mapsUrl}" target="_blank" rel="noopener">🗺️ Map</a>`;
   }
 
@@ -170,12 +179,42 @@ function renderTodayTab() {
   if (window.WordOfDay) window.WordOfDay.mount(document.getElementById('word-of-day-mount'));
 }
 
+function renderPrintHeader() {
+  const trip = TripData.itinerary.trip;
+  return `
+    <div class="print-header">
+      <h1>${trip.title}</h1>
+      <p>${trip.subtitle} · ${trip.dateRange}</p>
+      <p>${trip.route}</p>
+    </div>
+  `;
+}
+
 function renderItineraryTab() {
-  let html = renderTypeFilterRow();
+  let html = `<button class="link-btn no-print" id="print-itinerary-btn" style="cursor:pointer; background:none; border:none; padding:0; margin-bottom:10px;">🖨️ Print / Save as PDF</button>`;
+  html += renderPrintHeader();
+  html += renderTypeFilterRow();
   html += renderFilterRow();
   html += TripData.itinerary.days.map(d => renderDayCard(d, { filterHide: true })).join('');
   document.getElementById('main-content').innerHTML = html;
   attachFilterHandlers(document.getElementById('main-content'));
+
+  document.getElementById('print-itinerary-btn').addEventListener('click', () => {
+    const hadFilter = currentFilter !== 'all' || currentTypeFilter !== 'all';
+    if (hadFilter) {
+      currentFilter = 'all';
+      currentTypeFilter = 'all';
+      renderItineraryTab();
+    }
+    const details = document.querySelectorAll('#main-content details');
+    const openState = Array.from(details).map(d => d.open);
+    details.forEach(d => { d.open = true; });
+    window.print();
+    window.onafterprint = () => {
+      details.forEach((d, i) => { d.open = openState[i]; });
+      window.onafterprint = null;
+    };
+  });
 }
 
 function renderMapTab() {
@@ -198,7 +237,7 @@ function renderMapTab() {
     html += `<div class="card"><h3 style="margin-top:0;">${city}</h3>`;
     byCity[city].forEach(loc => {
       html += `<div class="pin-list-item">
-        <span>${TYPE_ICONS[loc.category] || '📍'} ${loc.name}${loc.note ? `<span class="pin-note">${loc.note}</span>` : ''}</span>
+        <span>${LOCATION_CATEGORY_ICONS[loc.category] || '📍'} ${loc.name}${loc.note ? `<span class="pin-note">${loc.note}</span>` : ''}</span>
         <a href="${mapsSearchUrl(loc)}" target="_blank" rel="noopener" class="link-btn">Open</a>
       </div>`;
     });
@@ -290,6 +329,7 @@ const TAB_RENDERERS = {
 let activeTab = 'today';
 
 function renderActiveTab() {
+  updateCountdownBadge();
   TAB_RENDERERS[activeTab]();
 }
 
@@ -328,8 +368,10 @@ function updateCountdownBadge() {
 
 TripData.ready.then(() => {
   setupTabs();
-  updateCountdownBadge();
   renderActiveTab();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') renderActiveTab();
+  });
 }).catch(err => {
   document.getElementById('main-content').innerHTML = `<div class="card"><p>Could not load trip data: ${err.message}</p></div>`;
 });

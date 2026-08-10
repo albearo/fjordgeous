@@ -1,6 +1,11 @@
 const CurrencyWidget = (function () {
   const CACHE_KEY = 'currencyRatesCache';
   const CURRENCIES = { SEK: 'Swedish krona', DKK: 'Danish krone', NOK: 'Norwegian krone' };
+  const TIPPING_NOTES = {
+    SEK: "🇸🇪 Tipping isn't expected in Sweden — service is included. Rounding up or 5–10% for great service is a nice touch, not a requirement.",
+    DKK: "🇩🇰 Service is included by law in Denmark. Tipping isn't expected, though rounding up is common for good service.",
+    NOK: "🇳🇴 Tipping isn't customary in Norway — menu prices already reflect fair wages. A round-up or 5–10% for excellent service is appreciated but optional."
+  };
 
   function loadCache() {
     try {
@@ -50,14 +55,17 @@ const CurrencyWidget = (function () {
       </div>
       <div class="currency-result" id="cc-result">—</div>
       <div class="stale-note" id="cc-stale">Loading rates…</div>
+      <div class="item-notes" id="cc-tip"></div>
     `;
 
     const amountEl = container.querySelector('#cc-amount');
     const currencyEl = container.querySelector('#cc-currency');
     const resultEl = container.querySelector('#cc-result');
     const staleEl = container.querySelector('#cc-stale');
+    const tipEl = container.querySelector('#cc-tip');
 
     function recompute() {
+      tipEl.textContent = TIPPING_NOTES[currencyEl.value] || '';
       if (!rates) {
         resultEl.textContent = '—';
         return;
